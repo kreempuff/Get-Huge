@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">JokeDisplay</string>
+    <string name="joke_intent_extra">com.udacity.gradle.builditbigger.joke</string>
+    <string name="joke_place_holder">Joke Place Holder</string>
+</resources>
