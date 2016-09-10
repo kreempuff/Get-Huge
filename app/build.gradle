@@ -48,5 +48,6 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.5'
     // Set this dependency to build and run Espresso tests
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+    //To fix version conflicts
     compile 'com.google.code.findbugs:jsr305:2.0.1'
 }
