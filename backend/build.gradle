@@ -30,6 +30,7 @@ dependencies {
 
 appengine {
   downloadSdk = true
+//Default port 8080 is in use on dev machine
   httpPort = 3000
   appcfg {
     oauth2 = true

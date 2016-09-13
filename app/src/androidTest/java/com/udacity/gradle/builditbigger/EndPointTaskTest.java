@@ -1,56 +1,33 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.LargeTest;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v4.content.LocalBroadcastManager;
-import android.test.mock.MockContext;
-import android.util.Pair;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
-/**
- * Created by kare2436 on 8/28/16.
- */
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+
+
 @RunWith(AndroidJUnit4.class)
+@LargeTest
 public class EndPointTaskTest {
-    MockContext mContext;
-    TestReceiver testReceiver;
 
-    @Before
-    public void getLocalBroadcast() {
-        testReceiver = new TestReceiver();
-        mContext = new MockContext();
-        IntentFilter intentFilter = new IntentFilter();
-
-        intentFilter.addAction("com.udacity.gradle.builditbigger.JOKE_RECEIVED");
-        //mContext.registerReceiver(testReceiver, intentFilter);
-    }
-
-//    @After
-//    public void removeBroadcast() {
-//        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(testReceiver);
-//    }
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
 
     @Test
-    public void testOnPostExecute() throws Exception {
-        new EndPointTask().execute(new Pair<Context, String>(mContext, "string"));
-    }
-
-
-    public class TestReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            assert intent.getStringExtra("com.udacity.gradle.builditbigger.joke") != null;
-        }
+    public void listGoesOverTheFold() {
+        onView(withId(R.id.tell_joke_button)).perform(click());
+        onView(withId(R.id.joke_text_view)).check(matches(withText("failed to connect to /10.0.2.2 (port 8080) after 20000ms: isConnected failed: ECONNREFUSED (Connection refused)")));
     }
 }

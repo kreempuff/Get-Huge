@@ -17,3 +17,8 @@ allprojects {
         jcenter()
     }
 }
+
+task runAndTest(dependsOn: [tasks.findByPath(":backend:assemble"), tasks.findByPath(":app:assembleFreeDebug")]) {
+    mustRunAfter tasks.findByPath(":app:assembleFreeDebug")
+    println("Hello")
+}
