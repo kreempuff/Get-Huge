@@ -6,11 +6,11 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
-        <activity android:name=".DisplayJokeActivity"
-            android:parentActivityName="com.udacity.gradle.builditbigger.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.udacity.gradle.builditbigger.MainActivity" />
+        <activity android:name=".DisplayJokeActivity">
+            <!--android:parentActivityName="com.udacity.gradle.builditbigger.MainActivity"-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.udacity.gradle.builditbigger.MainActivity" />-->
 
         </activity>
     </application>

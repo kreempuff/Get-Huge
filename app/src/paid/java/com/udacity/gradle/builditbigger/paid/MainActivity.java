@@ -4,15 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.theblackcub.JokeProvider;
 import com.udacity.gradle.builditbigger.EndPointTask;
 import com.udacity.gradle.builditbigger.R;
 
@@ -27,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadingProgress = findViewById(R.id.loading);
-        JokeProvider jokeProvider = new JokeProvider();
-        jokeProvider.provideJoke();
     }
 
 
@@ -75,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void tellJoke(View view) {
+    public void tellJoke(View view) throws InterruptedException {
         if (this.button == null) {
             this.button = view;
         }
@@ -86,9 +83,12 @@ public class MainActivity extends AppCompatActivity {
 
     public class MainActivityReceiver extends BroadcastReceiver {
 
+        private String TAG = "MainActivityReceiver";
+
         @Override
         public void onReceive(Context context, Intent intent) {
-            startActivity(intent);
+//            Log.i(TAG, "onReceive: ");
+//            startActivity(intent);
         }
     }
 
