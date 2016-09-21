@@ -27,6 +27,6 @@ task runAndTest(dependsOn: [":backend:appengineRun", ":app:connectedAndroidTest"
     }
 }
 
-tasks.findByPath(":backend:appengineStop").mustRunAfter ":app:connectedFreeDebugAndroidTest"
-tasks.findByPath(":app:connectedFreeDebugAndroidTest").mustRunAfter ":backend:appengineRun"
+tasks.findByPath(":backend:appengineStop").mustRunAfter ":app:connectedAndroidTest"
+tasks.findByPath(":app:connectedAndroidTest").mustRunAfter ":backend:appengineRun"
 runAndTest.finalizedBy ":backend:appengineStop"

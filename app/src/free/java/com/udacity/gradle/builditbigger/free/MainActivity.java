@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        super.onResume();
         if (button != null && button.getVisibility() == View.INVISIBLE) {
             button.setVisibility(View.VISIBLE);
             loadingProgress.setVisibility(View.GONE);
@@ -58,13 +59,12 @@ public class MainActivity extends AppCompatActivity {
             mainActivityReceiver = new MainActivityReceiver();
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(mainActivityReceiver, intentFilter);
-        super.onResume();
     }
 
     @Override
     protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mainActivityReceiver);
         super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mainActivityReceiver);
     }
 
     @Override

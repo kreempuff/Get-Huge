@@ -3,6 +3,7 @@ package com.udacity.gradle.builditbigger;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.Pair;
@@ -22,17 +23,40 @@ import java.io.IOException;
  */
 public class EndPointTask extends AsyncTask<Pair<Context, String>, Void, String> {
     private static final String TAG = "EndPointTask";
+    private String API_URL = null;
     private static MyApi myApiService = null;
     private Context context;
+    private boolean isEmulator = false;
 
+
+    public EndPointTask() {
+        // To detect if emulator this is an emulator
+        // From http://stackoverflow.com/questions/2245654/android-execution-in-emulator-or-device
+        if (Build.MODEL.contains("google_sdk") ||
+                Build.MODEL.contains("Emulator") ||
+                Build.MODEL.contains("Android SDK")) {
+            isEmulator = true;
+        }
+    }
+
+    @SafeVarargs
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
+    protected final String doInBackground(Pair<Context, String>... params) {
         context = params[0].first;
         String name = params[0].second;
 
-        if (myApiService == null){
+        if (API_URL == null) {
+            if (isEmulator) {
+                API_URL = context.getString(R.string.api_url_emulator);
+
+            } else {
+                API_URL = context.getString(R.string.api_url_device);
+            }
+        }
+
+        if (myApiService == null) {
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-                    .setRootUrl(context.getString(R.string.api_url))
+                    .setRootUrl(API_URL)
                     .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
                         @Override
                         public void initialize(AbstractGoogleClientRequest<?> request) throws IOException {
@@ -43,9 +67,8 @@ public class EndPointTask extends AsyncTask<Pair<Context, String>, Void, String>
         }
 
 
-
         try {
-            Log.d(TAG, "doInBackground: " + context.getString(R.string.api_url));
+            Log.d(TAG, "doInBackground: " + context.getString(R.string.api_url_emulator));
             return myApiService.sayHi(name).execute().getData();
         } catch (IOException e) {
             return e.getMessage();
@@ -55,9 +78,11 @@ public class EndPointTask extends AsyncTask<Pair<Context, String>, Void, String>
 
     @Override
     protected void onPostExecute(String s) {
+        Toast.makeText(context, API_URL, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, DisplayJokeActivity.class);
         intent.setAction(context.getString(R.string.intent_joke_received));
         intent.putExtra(context.getString(R.string.joke_intent_extra), s);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        Intent.FLAG_ACTIVITY_NEW_TASK
     }
 }

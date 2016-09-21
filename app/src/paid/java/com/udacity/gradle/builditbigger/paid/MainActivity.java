@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        super.onResume();
         if (button != null && button.getVisibility() == View.INVISIBLE) {
             button.setVisibility(View.VISIBLE);
             loadingProgress.setVisibility(View.GONE);
@@ -41,13 +43,12 @@ public class MainActivity extends AppCompatActivity {
             mainActivityReceiver = new MainActivityReceiver();
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(mainActivityReceiver, intentFilter);
-        super.onResume();
     }
 
     @Override
     protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mainActivityReceiver);
         super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mainActivityReceiver);
     }
 
     @Override
@@ -72,13 +73,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void tellJoke(View view) throws InterruptedException {
+    public void tellJoke(View view) {
         if (this.button == null) {
             this.button = view;
         }
+        new EndPointTask().execute(new Pair<Context, String>(this, "string"));
         this.button.setVisibility(View.INVISIBLE);
         loadingProgress.setVisibility(View.VISIBLE);
-        new EndPointTask().execute(new Pair<Context, String>(this, "string"));
     }
 
     public class MainActivityReceiver extends BroadcastReceiver {
@@ -87,8 +88,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-//            Log.i(TAG, "onReceive: ");
-//            startActivity(intent);
+            startActivity(intent);
+            loadingProgress.setVisibility(View.INVISIBLE);
+            button.setVisibility(View.VISIBLE);
+            Log.i(TAG, "onReceive: Hello");
+//            for (int i = 0; i < 1e9; i++) {
+//                int y = 3 + 0b01111;
+//            }
         }
     }
 
