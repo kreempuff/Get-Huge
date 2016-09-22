@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         if (this.button == null) {
             this.button = view;
         }
-        new EndPointTask().execute(new Pair<Context, String>(this, "string"));
+        new EndPointTask().execute(this);
         this.button.setVisibility(View.INVISIBLE);
         loadingProgress.setVisibility(View.VISIBLE);
     }
@@ -91,10 +91,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             loadingProgress.setVisibility(View.INVISIBLE);
             button.setVisibility(View.VISIBLE);
-            Log.i(TAG, "onReceive: Hello");
-//            for (int i = 0; i < 1e9; i++) {
-//                int y = 3 + 0b01111;
-//            }
         }
     }
 
