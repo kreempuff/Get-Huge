@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     public void getJoke() {
         this.button.setVisibility(View.INVISIBLE);
         loadingProgress.setVisibility(View.VISIBLE);
-        new EndPointTask().execute(new Pair<Context, String>(this, "string"));
+        new EndPointTask().execute(this);
     }
 
 }

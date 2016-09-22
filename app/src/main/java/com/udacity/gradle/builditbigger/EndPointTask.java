@@ -21,7 +21,7 @@ import java.io.IOException;
 /**
  * Created by kare2436 on 7/24/16.
  */
-public class EndPointTask extends AsyncTask<Pair<Context, String>, Void, String> {
+public class EndPointTask extends AsyncTask<Context, Void, String> {
     private static final String TAG = "EndPointTask";
     private String API_URL = null;
     private static MyApi myApiService = null;
@@ -39,16 +39,14 @@ public class EndPointTask extends AsyncTask<Pair<Context, String>, Void, String>
         }
     }
 
-    @SafeVarargs
     @Override
-    protected final String doInBackground(Pair<Context, String>... params) {
-        context = params[0].first;
-        String name = params[0].second;
+    protected final String doInBackground(Context... params) {
+        context = params[0];
+
 
         if (API_URL == null) {
             if (isEmulator) {
                 API_URL = context.getString(R.string.api_url_emulator);
-
             } else {
                 API_URL = context.getString(R.string.api_url_device);
             }
@@ -69,7 +67,7 @@ public class EndPointTask extends AsyncTask<Pair<Context, String>, Void, String>
 
         try {
             Log.d(TAG, "doInBackground: " + context.getString(R.string.api_url_emulator));
-            return myApiService.sayHi(name).execute().getData();
+            return myApiService.getJoke().execute().getData();
         } catch (IOException e) {
             return e.getMessage();
         }

@@ -31,8 +31,8 @@ public class MyEndpoint {
         return new MyBean();
     }
 
-    @ApiMethod(name = "sayBye")
-    public MyBean sayBye(@Named("name") String name) {
+    @ApiMethod(name = "getJoke")
+    public MyBean getJoke() {
 
         return new MyBean();
     }
