@@ -13,8 +13,10 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.not;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -27,6 +29,7 @@ public class EndPointTaskTest {
     @Test
     public void jokeShouldDisplay() {
         onView(withId(R.id.tell_joke_button)).perform(click());
-        onView(withId(R.id.joke_text_view)).check(matches(withText("failed to connect to /10.0.2.2 (port 3000) after 20000ms: isConnected failed: ECONNREFUSED (Connection refused)")));
+        onView(withId(R.id.joke_text_view)).check(matches(isDisplayed()));
+        onView(withId(R.id.joke_text_view)).check(matches(not(withText("failed to connect to /10.0.2.2 (port 3000) after 20000ms: isConnected failed: ECONNREFUSED (Connection refused)"))));
     }
 }

@@ -83,6 +83,5 @@ public class EndPointTask extends AsyncTask<Pair<Context, String>, Void, String>
         intent.setAction(context.getString(R.string.intent_joke_received));
         intent.putExtra(context.getString(R.string.joke_intent_extra), s);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-        Intent.FLAG_ACTIVITY_NEW_TASK
     }
 }
