@@ -1,25 +1,22 @@
-package com.udacity.gradle.builditbigger;
+package com.udacity.gradle.builditbigger.free;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.theblackcub.JokeProvider;
-
-import java.util.Locale;
+import com.udacity.gradle.builditbigger.EndPointTask;
+import com.udacity.gradle.builditbigger.R;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadingProgress = findViewById(R.id.loading);
-        JokeProvider jokeProvider = new JokeProvider();
-        jokeProvider.provideJoke();
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
@@ -53,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        super.onResume();
         if (button != null && button.getVisibility() == View.INVISIBLE) {
             button.setVisibility(View.VISIBLE);
             loadingProgress.setVisibility(View.GONE);
@@ -63,13 +59,12 @@ public class MainActivity extends AppCompatActivity {
             mainActivityReceiver = new MainActivityReceiver();
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(mainActivityReceiver, intentFilter);
-        super.onResume();
     }
 
     @Override
     protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mainActivityReceiver);
         super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mainActivityReceiver);
     }
 
     @Override

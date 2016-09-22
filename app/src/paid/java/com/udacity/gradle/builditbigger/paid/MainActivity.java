@@ -4,15 +4,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.theblackcub.JokeProvider;
 import com.udacity.gradle.builditbigger.EndPointTask;
 import com.udacity.gradle.builditbigger.R;
 
@@ -27,13 +27,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadingProgress = findViewById(R.id.loading);
-        JokeProvider jokeProvider = new JokeProvider();
-        jokeProvider.provideJoke();
     }
 
 
     @Override
     protected void onResume() {
+        super.onResume();
         if (button != null && button.getVisibility() == View.INVISIBLE) {
             button.setVisibility(View.VISIBLE);
             loadingProgress.setVisibility(View.GONE);
@@ -44,13 +43,12 @@ public class MainActivity extends AppCompatActivity {
             mainActivityReceiver = new MainActivityReceiver();
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(mainActivityReceiver, intentFilter);
-        super.onResume();
     }
 
     @Override
     protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mainActivityReceiver);
         super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mainActivityReceiver);
     }
 
     @Override
@@ -79,16 +77,24 @@ public class MainActivity extends AppCompatActivity {
         if (this.button == null) {
             this.button = view;
         }
+        new EndPointTask().execute(new Pair<Context, String>(this, "string"));
         this.button.setVisibility(View.INVISIBLE);
         loadingProgress.setVisibility(View.VISIBLE);
-        new EndPointTask().execute(new Pair<Context, String>(this, "string"));
     }
 
     public class MainActivityReceiver extends BroadcastReceiver {
 
+        private String TAG = "MainActivityReceiver";
+
         @Override
         public void onReceive(Context context, Intent intent) {
             startActivity(intent);
+            loadingProgress.setVisibility(View.INVISIBLE);
+            button.setVisibility(View.VISIBLE);
+            Log.i(TAG, "onReceive: Hello");
+//            for (int i = 0; i < 1e9; i++) {
+//                int y = 3 + 0b01111;
+//            }
         }
     }
 
